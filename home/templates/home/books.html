@@ -22,7 +22,6 @@
         <thead class="thead-dark">
             <tr>
                 <th>Book Name</th>
-                <th>Read Option</th>
                 <th>Download Option</th>
                 <th>Delete Option</th>
             </tr>
@@ -30,8 +29,7 @@
         {% for book in books %}
         <tr>
             <td><a href="{% url 'home:read-book' book.id %}">{{ book }}</a></td>
-            <td><a href="">read</a></td>
-            <td><a href="">download</a></td>
+            <td><a href="{% url 'home:download-book' book.id %}">download</a></td>
             <td><a href="{% url 'home:delete-book' book.id %}">delete</a></td>
         </tr>
         {% endfor %}

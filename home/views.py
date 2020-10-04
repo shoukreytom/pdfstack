@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse, Http404
 from django.urls import reverse_lazy
 import os
 
@@ -34,8 +34,17 @@ def books(request):
     return render(request, 'home/books.html', {'form': form, 'books': books})
 
 
-def download_book(request, file_):
-    return FileResponse(open(file_), content_type='application/pdf')
+def download_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if '8000' in request.get_host():
+        file_dir = str(book.book.path)
+    else:
+        file_dir = f"{request.get_host()}{book.book.path}"
+    try:
+        file_ = open(file_dir, 'rb')
+    except FileNotFoundError:
+        raise Http404('this file is not found')
+    return FileResponse(file_, content_type='application/pdf')
 
 
 def read_book(request, pk, file_=None):
