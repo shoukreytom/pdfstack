@@ -36,15 +36,7 @@ def books(request):
 
 def download_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
-    if '8000' in request.get_host():
-        file_dir = str(book.book.path)
-    else:
-        file_dir = f"{request.get_host()}{book.book.path}"
-    try:
-        file_ = open(file_dir, 'rb')
-    except FileNotFoundError:
-        raise Http404('this file is not found')
-    return FileResponse(file_, content_type='application/pdf')
+    return FileResponse(book.book.open(), content_type='application/pdf')
 
 
 def read_book(request, pk, file_=None):
