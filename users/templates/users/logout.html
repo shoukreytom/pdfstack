@@ -1,0 +1,12 @@
+{% extends "home/base.html" %}
+
+{% block title %}PDFStack - Logout{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <div class="alert alert-success">
+        <p>You've successfully logged out, want to loing again?</p>
+    </div>
+    <a class="btn btn-primary" href="{% url 'users:login' %}">Login again</a>
+</div>
+{% endblock %}

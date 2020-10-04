@@ -1,0 +1,17 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}PDFStack - Login{% endblock %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset>
+            <legend class="py-4">Login</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+{% endblock %}

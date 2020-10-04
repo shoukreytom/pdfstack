@@ -1,0 +1,36 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}PDFStach / Home {% endblock %}
+
+{% block content %}
+
+<div id='header' class="mb-2 w-100 mx-0">
+    <div class="text-center">
+        <!-- <p class="word-wrap">upload your books!! read them any time you want.</p> -->
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row mb-2 mt-2 justify-content-center">
+        <div class="col-md-4 m-4 p-4 bg-light border text-center">
+            <h1>Upload</h1>
+            <p class="lead">create an account, upload your books and enjoy reading.</p>
+        </div>
+        <div class="col-md-4 m-4 p-4 bg-light border text-center">
+            <h1>Read</h1>
+            <p class="lead">upload your books and come anytime to read them.</p>
+        </div>
+        <div class="col-md-4 m-4 p-4 bg-light border text-center">
+            <h1>Download</h1>
+            <p class="lead">you can download your books to restore them again into your decive.</p>
+        </div>
+        <div class="col-md-4 m-4 p-4 bg-light border text-center">
+            <h1>Privacy</h1>
+            <p class="lead">while your files are uploaded here, you don't have to worry about privacy.</p>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <a class="btn btn-primary mb-2" href="">Get started</a>
+</div>
+{% endblock content %}
