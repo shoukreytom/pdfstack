@@ -49,7 +49,7 @@ def download_book(request, pk):
 
 def read_book(request, pk, file_=None):
     book = get_object_or_404(Book, pk=pk)
-    cred_id = os.environ('CRED_ID')
+    cred_id = os.environ.get('CRED_ID')
     return render(request, 'home/viewer.html', {'book': book, 'cred_id': cred_id})
 
 
