@@ -1,4 +1,5 @@
 from pathlib import Path
+import django_heroku
 
 import os
 
@@ -116,3 +117,5 @@ MEDIA_URL = '/media/'
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'home:index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+django_heroku.settings(locals())
