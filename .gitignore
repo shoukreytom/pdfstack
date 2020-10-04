@@ -141,4 +141,4 @@ cython_debug/
 # database
 *.sqlite3
 *.db
-media/
+media/books/*
