@@ -41,8 +41,9 @@ def download_book(request, pk):
 
 def read_book(request, pk, file_=None):
     book = get_object_or_404(Book, pk=pk)
+    book_url = book.book.open()
     cred_id = os.environ.get('CRED_ID')
-    return render(request, 'home/viewer.html', {'book': book, 'cred_id': cred_id})
+    return render(request, 'home/viewer.html', {'book_url': book_url, 'cred_id': cred_id})
 
 
 class DeleteBook(DeleteView):
