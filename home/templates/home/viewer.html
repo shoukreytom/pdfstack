@@ -6,14 +6,14 @@
 {% block content %}
 <div class="container my-5">
     <div id="adobe-dc-view" style="min-height: 400px;"></div>
-    <script src="https://documentcloud.adobe.com/view-sdk/main.js" crossorigin="anonymous"></script>
+    <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
     <script type="text/javascript">
         document.addEventListener("adobe_dc_view_sdk.ready", function () {
             var adobeDCView = new AdobeDC.View({ clientId: "{{ cred_id }}", divId: "adobe-dc-view" });
             adobeDCView.previewFile({
                 content: {
                     location:
-                        { url: "https://pdfstack.s3.us-west-002.backblazeb2.com/books/e4e85e50-2f2d-4e72-954b-4bc93$/Profile.pdf" }
+                        { url: "{{ book.book.url }}" }
                 },
                 metaData: { fileName: "{{ book }}" }
             },
