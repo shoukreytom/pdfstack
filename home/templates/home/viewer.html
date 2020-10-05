@@ -13,7 +13,7 @@
             adobeDCView.previewFile({
                 content: {
                     location:
-                        { url: 'https://pdfstack.herokuapp.com/media/books/{{ book }}' }
+                        { url: '{{ book.book.url }}' }
                 },
                 metaData: { fileName: "{{ book }}" }
             },
