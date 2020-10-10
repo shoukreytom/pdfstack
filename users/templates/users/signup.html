@@ -11,7 +11,8 @@
             <legend class="py-4">Join Today</legend>
             {{ form|crispy }}
         </fieldset>
-        <button type="submit" class="btn btn-primary">Signup</button>
+        <button type="submit" class="btn btn-primary mb-4">Signup</button>
     </form>
+    <small class="text-muted">Already have an account? please</small> <a href="{% url 'users:login' %}">login here</a>
 </div>
 {% endblock %}
