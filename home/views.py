@@ -27,15 +27,20 @@ class BookList(LoginRequiredMixin, View):
     def post(self, request):
         form = UploadBook(request.POST, request.FILES)
         if form.is_valid():
-            obj = form.save(commit=False)
-            obj.owner = request.user
-            obj.save()
-            messages.success(
-                request, "Your file has been uploaded successfully!!!")
+            book_name = form.cleaned_data.get('book')
+            if str(book_name).lower().endswith('pdf'):
+                obj = form.save(commit=False)
+                obj.owner = request.user
+                obj.save()
+                messages.success(
+                    request, "Your file has been uploaded successfully!!!")
+            else:
+                messages.error(
+                    request, "You should select pdf file (e.g: exampl.pdf).")
             books = Book.objects.filter(owner=request.user)
         else:
             messages.error(
-                request, "oops!!! the uploaded has been fialed, please try again.")
+                request, "Sorry!! you didn't select anything.")
         return render(request, 'home/books.html', {
             'form': self.init_form,
             'books': books
