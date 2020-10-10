@@ -6,7 +6,7 @@ app_name = 'home'
 
 urlpatterns = [
     path('', views.home, name='index'),
-    path('my/books/', views.books, name='books'),
+    path('my/books/', views.BookList.as_view(), name='books'),
     path('my/books/<int:pk>/delete/',
          views.DeleteBook.as_view(), name='delete-book'),
     path('my/books/<int:pk>/download/',

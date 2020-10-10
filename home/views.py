@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, DeleteView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import FileResponse, HttpResponse, Http404
 from django.urls import reverse_lazy
@@ -14,10 +14,17 @@ def home(request):
     return render(request, 'home/index.html')
 
 
-@login_required
-def books(request):
-    books = Book.objects.filter(owner=request.user)
-    if request.method == 'POST':
+class BookList(LoginRequiredMixin, View):
+    init_form = UploadBook()
+
+    def get(self, request):
+        books = Book.objects.filter(owner=request.user)
+        return render(request, 'home/books.html', {
+            'form': self.init_form,
+            'books': books
+        })
+
+    def post(self, request):
         form = UploadBook(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
@@ -29,9 +36,10 @@ def books(request):
         else:
             messages.error(
                 request, "oops!!! the uploaded has been fialed, please try again.")
-
-    form = UploadBook()
-    return render(request, 'home/books.html', {'form': form, 'books': books})
+        return render(request, 'home/books.html', {
+            'form': self.init_form,
+            'books': books
+        })
 
 
 def download_book(request, pk):
