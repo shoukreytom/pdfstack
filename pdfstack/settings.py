@@ -119,9 +119,10 @@ LOGIN_REDIRECT_URL = 'home:index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # blackblaze storage
-DEFAULT_FILE_STORAGE = 'django_b2.storage.B2Storage'
-B2_APP_KEY_ID = os.environ.get('B2_APP_KEY_ID')
-B2_APP_KEY = os.environ.get('B2_APP_KEY')
-B2_BUCKET_NAME = os.environ.get('B2_BUCKET_NAME')
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = 'django_b2.storage.B2Storage'
+    B2_APP_KEY_ID = os.environ.get('B2_APP_KEY_ID')
+    B2_APP_KEY = os.environ.get('B2_APP_KEY')
+    B2_BUCKET_NAME = os.environ.get('B2_BUCKET_NAME')
 
 django_heroku.settings(locals())
