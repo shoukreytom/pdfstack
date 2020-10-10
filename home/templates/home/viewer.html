@@ -5,11 +5,8 @@
 
 {% block content %}
 <div class="container my-5">
-    <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item" src="{{ book.book.url }}" allowfullscreen></iframe>
-    </div>
-    <!-- <iframe src="http://docs.google.com/gview?url={{ book.book.url }}&embedded=true" style="width:90%; height:500px;"
-        frameborder="0"></iframe> -->
+    <iframe src="http://docs.google.com/gview?url={{ book.book.url }}&embedded=true" style="width:90%; height:500px;"
+        frameborder="0"></iframe>
     <!-- <div id="adobe-dc-view" style="min-height: 400px;"></div>
     <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
     <script type="text/javascript">
