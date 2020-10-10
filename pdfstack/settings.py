@@ -117,7 +117,7 @@ MEDIA_URL = '/media/'
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'home:index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = True
 
 # blackblaze storage
 if not DEBUG:
