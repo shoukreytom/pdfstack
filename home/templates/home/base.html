@@ -34,8 +34,8 @@
                 </li>
             </ul>
         </div>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <ul class="navbar-nav mr-auto">
+        <div class="collapse navbar-collapse mr-auto" id="navbarTogglerDemo03">
+            <ul class="navbar-nav ml-5">
                 {% if not user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'users:signup' %}">Signup</a>
