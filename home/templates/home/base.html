@@ -12,6 +12,7 @@
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'book-stack-32.png' %}">
 
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -22,7 +23,8 @@
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'home:index' %}">PDFStack</a>
+        <a class="navbar-brand" href="{% url 'home:index' %}"><img class="mr-2" src="{% static 'book-stack-48.png' %}">
+            PDFStack</a>
 
         <div class="collapse navbar-collapse ml-5" id="navbarTogglerDemo03">
             <ul class="navbar-nav">
