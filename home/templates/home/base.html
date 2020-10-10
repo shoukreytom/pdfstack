@@ -62,7 +62,11 @@
         <ul class="mt-4">
             {% for message in messages %}
             <li style="list-style: none;">
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger">{{ message }}</div>
+                {% else %}
                 <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>
