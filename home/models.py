@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_delete
+from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
 
@@ -12,6 +12,10 @@ class Book(models.Model):
         return f"{self.book.name.split('/')[-1]}"
 
 
-@receiver(post_delete, sender=Book)
+@receiver(pre_delete, sender=Book)
 def delete_book(sender, instance, **kwargs):
-    instance.book.delete()
+    try:
+        book = instance.book
+    except AttributeError:
+        return
+    book.delete()
