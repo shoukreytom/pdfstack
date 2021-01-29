@@ -4,7 +4,7 @@
 {% block title %}PDFStack - Signup{% endblock %}
 
 {% block content %}
-<div class="container text-center my-5">
+<div class="container text-center my-5 w-75">
     <form method="POST">
         {% csrf_token %}
         <fieldset>
@@ -13,6 +13,7 @@
         </fieldset>
         <button type="submit" class="btn btn-primary mb-4">Signup</button>
     </form>
-    <small class="text-muted">Already have an account? please</small> <a href="{% url 'users:login' %}">login here</a>
+    <small class="text-muted">Already have an account? please</small> <a href="{% url 'users:login' %}">Login</a>
+    <samall class="text-muted">instead.</samall>
 </div>
 {% endblock %}

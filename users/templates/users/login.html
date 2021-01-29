@@ -4,18 +4,20 @@
 {% block title %}PDFStack - Login{% endblock %}
 
 {% block content %}
-<div class="container text-center my-5">
+<div class="container text-center my-5 w-75">
     <form method="POST">
         {% csrf_token %}
         <fieldset>
             <legend class="py-4">Login</legend>
-            {{ form|crispy }}
+            <div class="form-group">
+                {{ form|crispy }}
+            </div>
         </fieldset>
         <button type="submit" class="btn btn-primary mb-4">Login</button>
     </form>
-    <p>
-        <a class="mr-5" href="">reset my password</a>
-        <a class="ml-5" href="{% url 'users:signup' %}">create new account</a>
-    </p>
+    <div class="py-4">
+        <a class="mr-5" href="">FORGOT PASSWORD?</a>
+        <a class="ml-5" href="{% url 'users:signup' %}">NEW ACCOUNT</a>
+    </div>
 </div>
 {% endblock %}
