@@ -1,1 +1,1 @@
-web: gunicorn pdfstack.wsgi
+web: gunicorn config.wsgi
