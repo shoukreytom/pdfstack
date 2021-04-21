@@ -117,7 +117,7 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'home:index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # SECURE_SSL_REDIRECT = True
-# X_FRAME_OPTIONS = 'SAMEORIGIN'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # blackblaze storage
 if not DEBUG:

@@ -4,8 +4,11 @@
 
 
 {% block content %}
-<div class="container my-5">
-    <canvas id="viewer"></canvas>
-    <input type="hidden" value="{{ book.book.url }}" id="bklink"/>
+<div class="container my-2 text-center">
+    <div id="viewer">
+        <iframe src="{{ book.book.url }}" style="width: 85vw;height:85vh" frameborder="0" id="pdf"/>
+    </div>
+    <!-- <canvas id="viewer"></canvas>
+    <input type="hidden" value="{{ book.book.url }}" id="bklink"/> -->
 </div>
 {% endblock %}
