@@ -1,6 +1,7 @@
 from pathlib import Path
 import django_heroku
 from decouple import config
+import secrets  # just for testing (github ci)
 
 import os
 
@@ -12,7 +13,7 @@ if os.path.exists(BASE_DIR / '.env'):
     SECRET_KEY = config('SECRET_KEY')
     DEBUG = (config('DEBUG') == "True")
 else:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET_KEY') or str(secrets.token_hex(24))
     DEBUG = (os.environ.get('DEBUG_VALUE') == "True")
 
 ALLOWED_HOSTS = ['pdfstack.herokuapp.com', '127.0.0.1']
