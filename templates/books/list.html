@@ -1,4 +1,4 @@
-{% extends 'home/base.html' %}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
 {% block title %}PDFStack / Books{% endblock %}
@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container text-center my-4 minh-75">
     <div class="container text-center border p-4 my-4">
-        <form enctype="multipart/form-data" action="{% url 'home:books' %}" method="POST">
+        <form enctype="multipart/form-data" action="{% url 'books:upload' %}" method="POST">
             {% csrf_token %}
             <fieldset>
                 <legend class="py-4">Add new book</legend>
@@ -28,9 +28,9 @@
         </thead>
         {% for book in books %}
         <tr>
-            <td><a href="{% url 'home:read-book' book.id %}">{{ book }}</a></td>
-            <td><a href="{% url 'home:download-book' book.id %}">download</a></td>
-            <td><a href="{% url 'home:delete-book' book.id %}">delete</a></td>
+            <td><a href="{% url 'books:read' book.id %}">{{ book }}</a></td>
+            <td><a href="{% url 'books:download' book.id %}">download</a></td>
+            <td><a href="{% url 'books:delete' book.id %}">delete</a></td>
         </tr>
         {% endfor %}
     </table>

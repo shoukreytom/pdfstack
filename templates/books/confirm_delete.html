@@ -1,4 +1,4 @@
-{% extends "home/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}PDFStack - Delete Book{% endblock %}
 
@@ -8,7 +8,7 @@
     <form method="POST">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger mr-4">Yes, delete.</button>
-        <a class="btn btn-info" href="{% url 'home:books' %}">Cancel</a>
+        <a class="btn btn-info" href="{% url 'books:list' %}">Cancel</a>
     </form>
 
 </div>

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}PDFStack / Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="title">Profile Information</h2>
+    <table class="table table-dark table-bordered my-4">
+        <tr>
+            <td><strong>Username</strong></td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td><strong>Email</strong></td>
+            {% if user.email %}
+            <td>{{ user.email }}</td>
+            {% else %}
+            <td>email is not set</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td><strong>Number of books in the stack</strong></td>
+            <td>{{ user.books.count }}</td>
+        </tr>
+    </table>
+    <div>
+        <h2 class="my-4">Update Account Information</h2>
+        <form method="POST" action="{% url 'users:profile' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="username">Username</label>
+                <input class="form-control" type="text" id="username" name="username" value="{{ user.username }}"
+                    placeholder="user5332">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-control" type="email" id="email" name="email" value="{{ user.email }}"
+                    placeholder="example@host.com">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="currentPassword">Current Password</label>
+                <input class="form-control" type="password" id="currentPassword" name="currentPassword"
+                    placeholder="current password">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="newPassword">New Password</label>
+                <input class="form-control" type="password" id="newPassword" name="newPassword"
+                    placeholder="new password">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="confirmPassword">Confirm Password</label>
+                <input class="form-control" type="password" id="confirmPassword" name="confirmPassword"
+                    placeholder="confirm password">
+            </div>
+            <button class="btn btn-primary my-4">Update</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

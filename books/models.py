@@ -8,7 +8,11 @@ from .utils import upload_book_to
 
 
 class Book(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=settings.AUTH_USER_MODEL)
+    owner = models.ForeignKey(User, 
+        on_delete=models.CASCADE, 
+        default=settings.AUTH_USER_MODEL,
+        related_name="books"
+    )
     book = models.FileField(upload_to=upload_book_to)
 
     def __str__(self):

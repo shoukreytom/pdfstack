@@ -1,31 +1,30 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.http import FileResponse, HttpResponse, Http404
+from django.http import FileResponse
 from django.urls import reverse_lazy
 import os
 
 from .models import Book
-from .forms import UploadBook
-
-
-def home(request):
-    return render(request, 'home/index.html')
+from .forms import UploadBookForm
 
 
 class BookList(LoginRequiredMixin, View):
-    init_form = UploadBook()
-
     def get(self, request):
+        form = UploadBookForm()
         books = Book.objects.filter(owner=request.user)
-        return render(request, 'home/books.html', {
-            'form': self.init_form,
+        return render(request, 'books/list.html', {
+            'form': form,
             'books': books
         })
 
+
+
+class UploadBook(LoginRequiredMixin, View):
+    init_form = UploadBookForm()
     def post(self, request):
-        form = UploadBook(request.POST, request.FILES)
+        form = UploadBookForm(request.POST, request.FILES)
         if form.is_valid():
             book_name = form.cleaned_data.get('book')
             if str(book_name).lower().endswith('pdf'):
@@ -41,7 +40,7 @@ class BookList(LoginRequiredMixin, View):
         else:
             messages.error(
                 request, "Sorry!! you didn't select anything.")
-        return render(request, 'home/books.html', {
+        return render(request, 'books/list.html', {
             'form': self.init_form,
             'books': books
         })
@@ -55,11 +54,11 @@ def download_book(request, pk):
 def read_book(request, pk, file_=None):
     book = get_object_or_404(Book, pk=pk)
     cred_id = os.environ.get('CRED_ID')     # credentail_id for adobe reader
-    return render(request, 'home/viewer.html', {'book': book})
+    return render(request, 'books/viewer.html', {'book': book})
 
 
 class DeleteBook(DeleteView):
     model = Book
-    template_name = 'home/confirm_delete.html'
+    template_name = 'books/confirm_delete.html'
     context_object_name = 'book'
-    success_url = reverse_lazy('home:books')
+    success_url = reverse_lazy('books:list')

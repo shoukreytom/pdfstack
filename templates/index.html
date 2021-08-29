@@ -1,4 +1,4 @@
-{% extends 'home/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}PDFStach / Home {% endblock %}
@@ -28,6 +28,6 @@
     </div>
 </div>
 <div class="text-center">
-    <a class="btn btn-primary mb-2" href="{% url 'home:books' %}">Get started</a>
+    <a class="btn btn-primary mb-2" href="{% url 'books:list' %}">Get started</a>
 </div>
 {% endblock content %}
