@@ -25,12 +25,22 @@ def profile(request):
         current_password = request.POST['currentPassword']
         new_password = request.POST['newPassword']
         confirm_password = request.POST['confirmPassword']
-        user = authenticate(request, username=username, password=current_password)
-        if user and new_password == confirm_password:
-            user.email = email=BaseUserManager.normalize_email(email)
-            user.set_password(new_password)
+        if not (new_password and confirm_password):
+            user = request.user
+            user.email = BaseUserManager.normalize_email(email)
+            user.username = username
             user.save()
-            messages.success(request, "your account information has been updated successfully!");
+            messages.success(request, "your account information has been updated successfully!")
         else:
-            messages.error(request, "passwords don't match.")
+            user = authenticate(request, username=username, password=current_password)
+            if user:
+                if new_password == confirm_password:
+                    user.email = email=BaseUserManager.normalize_email(email)
+                    user.set_password(new_password)
+                    user.save()
+                    messages.success(request, "your account information has been updated successfully!")
+                else:
+                    messages.error(request, "password don't match.")
+            else:
+                messages.error(request, "authentication failed!")
     return render(request, 'users/profile.html')
