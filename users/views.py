@@ -6,6 +6,8 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User, BaseUserManager
 from django.contrib import messages
 from django.contrib.auth import authenticate
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 from .forms import UserSignupForm
 
@@ -22,25 +24,32 @@ def profile(request):
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
-        current_password = request.POST['currentPassword']
-        new_password = request.POST['newPassword']
-        confirm_password = request.POST['confirmPassword']
-        if not (new_password and confirm_password):
-            user = request.user
-            user.email = BaseUserManager.normalize_email(email)
-            user.username = username
-            user.save()
-            messages.success(request, "your account information has been updated successfully!")
-        else:
-            user = authenticate(request, username=username, password=current_password)
-            if user:
-                if new_password == confirm_password:
-                    user.email = email=BaseUserManager.normalize_email(email)
-                    user.set_password(new_password)
-                    user.save()
-                    messages.success(request, "your account information has been updated successfully!")
-                else:
-                    messages.error(request, "password don't match.")
+        try:
+            validate_email(email)
+            current_password = request.POST['currentPassword']
+            new_password = request.POST['newPassword']
+            confirm_password = request.POST['confirmPassword']
+            if not (new_password and confirm_password):
+                user = request.user
+                user.email = BaseUserManager.normalize_email(email)
+                user.username = username
+                user.save()
+                messages.success(
+                    request, "your account information has been updated successfully!")
             else:
-                messages.error(request, "authentication failed!")
+                user = authenticate(request, username=username,
+                                    password=current_password)
+                if user:
+                    if new_password == confirm_password:
+                        user.email = email = BaseUserManager.normalize_email(email)
+                        user.set_password(new_password)
+                        user.save()
+                        messages.success(
+                            request, "your account information has been updated successfully!")
+                    else:
+                        messages.error(request, "password don't match.")
+                else:
+                    messages.error(request, "authentication failed!")
+        except ValidationError:
+            messages.error(request, "invalid email.")
     return render(request, 'users/profile.html')
