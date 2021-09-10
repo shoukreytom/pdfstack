@@ -9,6 +9,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import authenticate
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.db.utils import IntegrityError
 
 from .forms import UserSignupForm
 from .utils import UsernameValidationError, validate_username
@@ -29,13 +30,17 @@ def profile(request):
         email = request.POST['email']
         try:
             validate_username(username)
-            validate_email(email)
+            if email:
+                validate_email(email)
             current_password = request.POST['currentPassword']
             new_password = request.POST['newPassword']
             confirm_password = request.POST['confirmPassword']
             if not (new_password and confirm_password):
                 user = request.user
                 user.email = BaseUserManager.normalize_email(email)
+                tem_user, created = User.objects.get_or_create(username=username)
+                if created and username != user.username:
+                    raise IntegrityError("this username is already taken")
                 user.username = username
                 user.save()
                 messages.success(
@@ -56,6 +61,8 @@ def profile(request):
                     messages.error(request, "authentication failed!")
         except UsernameValidationError as e:
             messages.error(request, str(e))
+        except IntegrityError as ine:
+            messages.error(request, str(ine))
         except ValidationError:
-            messages.error(request, "invalid email or username.")
+            messages.error(request, "invalid email.")
     return render(request, 'users/profile.html')
