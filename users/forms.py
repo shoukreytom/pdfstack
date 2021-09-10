@@ -1,15 +1,16 @@
-from users.utils import validate_username
-from django import forms
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from users.models import User
 
 
-class UserSignupForm(UserCreationForm):
+class AddUserForm(UserCreationForm):
+
+    class Meta(UserCreationForm):
+        model = User
+        fields = ('email',)
+
+
+class UpdateUserForm(UserChangeForm):
+
     class Meta:
         model = User
-        fields = ['username']
-    
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        validate_username(username)
-        return username
+        fields = ('email',)

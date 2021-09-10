@@ -1,5 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+
+from .managers import UserManager
+
+
+class User(AbstractUser):
+    username = None
+    email = models.EmailField(_("email address"), unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+    
+    objects = UserManager()
+
+    def __str__(self):
+        return self.email
 
 
 class Profile(models.Model):
@@ -8,4 +25,4 @@ class Profile(models.Model):
         upload_to='profile_images', default='profile_images/user-default.png')
 
     def __str__(self):
-        return f'<Profile {self.user.username}>'
+        return f'<Profile {self.user.email}>'
