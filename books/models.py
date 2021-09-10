@@ -1,16 +1,15 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
+from users.models import User
 
 from .utils import upload_book_to
 
 
 class Book(models.Model):
     owner = models.ForeignKey(User, 
-        on_delete=models.CASCADE, 
-        default=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
         related_name="books"
     )
     book = models.FileField(upload_to=upload_book_to)
