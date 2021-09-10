@@ -17,12 +17,13 @@
     
     <script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}" defer></script>
 
     <title>{% block title %}{% endblock %}</title>
 </head>
 
 <body dir="ltr">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -51,6 +52,7 @@
                 </li>
                 {% else %}
                 <li class="nav-item">
+                    <a class="nav-link btn btn-outline-secondary" id="dialog-btn" href="">Upload</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -141,6 +143,30 @@
         </div>
     </nav>
     <!-- Footer -->
+
+    <!-- Upload Book Dialogg -->
+    <dialog id="upload-dialog">
+        <button class="btn" id="dialog-close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+            </svg>
+        </button>
+        <div id="dialog-content">
+            <form enctype="multipart/form-data" action="{% url 'books:upload' %}" method="POST">
+                {% csrf_token %}
+                <fieldset>
+                    <legend class="py-5 my-5">
+                        <span class="display-4 fw-bold">Add new book</span>
+                    </legend>
+                    {{ form }}
+                    <div class="py-4">
+                        <button type="submit" class="btn btn-primary my-2">upload</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </dialog>
+    <!-- End Dialog -->
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

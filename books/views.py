@@ -12,12 +12,8 @@ from .forms import UploadBookForm
 
 class BookList(LoginRequiredMixin, View):
     def get(self, request):
-        form = UploadBookForm()
-        books = Book.objects.filter(owner=request.user)
-        return render(request, 'books/list.html', {
-            'form': form,
-            'books': books
-        })
+        
+        return render(request, 'books/list.html')
 
 
 
