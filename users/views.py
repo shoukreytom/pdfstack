@@ -6,7 +6,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import BaseUserManager
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
@@ -144,3 +144,14 @@ def password_reset_confirm(request):
             except EmailAddress.DoesNotExist:
                 messages.error(request, "invalid token.")
         return render(request, "users/password_reset_confirm.html", ctx)
+
+
+@login_required
+@require_http_methods(['GET', 'POST', ])
+def delete_user(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request)
+        user.delete()
+        return redirect("home")
+    return render(request, "users/user_delete_confirm.html")

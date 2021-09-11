@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}PDFStack - Delete Account{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <p class="lead">Do you really want to delete your account?</p>
+    <form method="POST" action="{% url 'users:delete-user' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger mr-4">Yes, delete.</button>
+        <a class="btn btn-info" href="{% url 'users:profile' %}">Cancel</a>
+    </form>
+
+</div>
+{% endblock %}
