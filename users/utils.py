@@ -5,7 +5,7 @@ import secrets
 
 
 def generate_token():
-    return str(secrets.token_hex(120))
+    return str(secrets.token_hex(50))
 
 
 def send_verification_message(email, token):
