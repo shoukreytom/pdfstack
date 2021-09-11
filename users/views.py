@@ -12,7 +12,7 @@ from django.core.exceptions import ValidationError
 
 from users.models import EmailAddress, User
 from users.forms import AddUserForm
-from users.utils import generate_token, send_verification_message
+from users.utils import generate_token, send_password_reset_message, send_verification_message
 
 
 class UserSignup(SuccessMessageMixin, CreateView):
@@ -91,3 +91,56 @@ def verify_email(request):
     else:
         messages.error(request, "Verification token is missing.")
     return redirect('users:profile')
+
+
+@require_http_methods(['GET', 'POST', ])
+def password_reset(request):
+    if request.method == 'POST':
+        email = request.POST.get("email", None)
+        try:
+            email_addr = get_object_or_404(EmailAddress, email=email)
+            if email_addr.is_verified:
+                token = generate_token()
+                send_password_reset_message(email, token)
+                email_addr.token = token
+                email_addr.save()
+                messages.success(request, f"a password reset link is sent to {email}.")
+            else:
+                messages.error(request, "this email is not verified.")
+        except EmailAddress.DoesNotExist:
+            messages.error(request, "this email does not exist.")
+    return render(request, "users/password_reset.html")
+
+
+@require_http_methods(['GET', 'POST', ])
+def password_reset_confirm(request):
+    if request.method == 'POST':
+        token = request.POST.get("token", None)
+        new_password = request.POST.get("new-password", None)
+        confirm_password = request.POST.get("confirm-password", None)
+        if token and new_password:
+            try:
+                email_addr = get_object_or_404(EmailAddress, token=token)
+                user = User.objects.get(email=email_addr)
+                if new_password == confirm_password:
+                    user.set_password(new_password)
+                    user.save()
+                    messages.success(request, "your password has been updated successfully.")
+                    return redirect("users:login")
+                else:
+                    messages.error(request, "password don't match.")
+            except EmailAddress.DoesNotExist:
+                messages.error(request, "")
+        else:
+            messages.error(request, "")
+    else:
+        token = request.GET.get("token", None)
+        ctx = dict()
+        if token:
+            try:
+                email_addr = get_object_or_404(EmailAddress, token=token)
+                ctx["token"] = token
+                ctx["email"] = email_addr.email
+            except EmailAddress.DoesNotExist:
+                messages.error(request, "invalid token.")
+        return render(request, "users/password_reset_confirm.html", ctx)

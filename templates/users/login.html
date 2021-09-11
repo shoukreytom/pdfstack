@@ -16,7 +16,7 @@
         <button type="submit" class="btn btn-primary mb-4">Login</button>
     </form>
     <div class="py-4">
-        <a class="mr-5" href="">FORGOT PASSWORD?</a>
+        <a class="mr-5" href="{% url 'users:password-reset' %}">FORGOT PASSWORD?</a>
         <a class="ml-5" href="{% url 'users:signup' %}">NEW ACCOUNT</a>
     </div>
 </div>

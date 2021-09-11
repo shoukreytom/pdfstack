@@ -30,3 +30,27 @@ or just copy and paste it into a browser.
         settings.EMAIL_HOST_USER, [email, ],
         fail_silently=False
     ) 
+
+
+def send_password_reset_message(email, token):
+    # HOST_URL = "http://localhost:8000/"     # On development
+    HOST_URL = "https://pdfstack.herokuapp.com/"    # On production
+    VERIFICATION_URL = f"account/password/reset/confirm/?token={token}"
+    URL = HOST_URL + VERIFICATION_URL
+    SUBJECT = "Password Reset"
+    MESSAGE = f"""Hi There!
+Someone has requested a password reset on PDFStack using this email, if
+it was you please click on the link below:
+
+
+{URL}
+
+
+or just copy and paste it into a browser.
+"""
+    send_mail(
+        SUBJECT, 
+        MESSAGE,
+        settings.EMAIL_HOST_USER, [email, ],
+        fail_silently=False
+    ) 
