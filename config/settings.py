@@ -59,6 +59,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'books.context_processors.get_books',
                 'books.context_processors.get_upload_form',
+                'users.context_processors.check_email_verification',
             ],
         },
     },
@@ -127,6 +128,19 @@ if not DEBUG:
     B2_APP_KEY_ID = os.environ.get('B2_APP_KEY_ID')
     B2_APP_KEY = os.environ.get('B2_APP_KEY')
     B2_BUCKET_NAME = os.environ.get('B2_BUCKET_NAME')
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+
+if os.path.exists(BASE_DIR / '.env'):
+    EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+else:
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", None)
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", None)
 
 django_heroku.settings(locals())
 

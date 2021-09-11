@@ -19,6 +19,15 @@ class User(AbstractUser):
         return self.email
 
 
+class EmailAddress(models.Model):
+    email = models.EmailField(_("email address"), unique=True)
+    token = models.CharField(max_length=120, unique=True)
+    is_verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.email
+
+
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(
