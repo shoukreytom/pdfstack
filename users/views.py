@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
@@ -10,8 +10,9 @@ from django.contrib.auth import authenticate, login
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
-from users.models import User
+from users.models import EmailAddress, User
 from users.forms import AddUserForm
+from users.utils import generate_token, send_verification_message
 
 
 class UserSignup(SuccessMessageMixin, CreateView):
@@ -57,3 +58,36 @@ def profile(request):
             else:
                 messages.error(request, "Password don't match.")
     return render(request, 'users/profile.html')
+
+
+@login_required
+@require_http_methods(['POST', ])
+def send_verification_email(request):
+    try:
+        token = generate_token()
+        send_verification_message(request.user.email, token)
+        email_address, created = EmailAddress.objects.get_or_create(email=request.user.email)
+        email_address.token = token
+        email_address.save()
+        messages.success(request, f"An email has been sent to {request.user.email}.")
+    except Exception as e:
+        messages.error(request, "Failed to send message." + str(e))
+    return redirect('users:profile')
+
+
+def verify_email(request):
+    token = request.GET.get("token", None)
+    if token:
+        try:
+            email_addr = get_object_or_404(EmailAddress, token=token)
+            if email_addr.email == request.user.email:
+                email_addr.is_verified = True
+                email_addr.save()
+                messages.success(request, "Your email is verified now.")
+            else:
+                messages.success(request, "Something went wrong, please try again.")
+        except EmailAddress.DoesNotExist:
+            messages.error(request, "OOPS!! we can't verify your email.")
+    else:
+        messages.error(request, "Verification token is missing.")
+    return redirect('users:profile')

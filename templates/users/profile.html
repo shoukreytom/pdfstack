@@ -15,6 +15,15 @@
             <td>{{ user.books.count }}</td>
         </tr>
     </table>
+    {% if user_is_verified %}
+    <span>Your email is verified.</span>
+    {% else %}
+    <span>Your email is not verified.</span>
+    <form method="POST" action="{% url 'users:send-verify-email' %}">
+        {% csrf_token %}
+        <button class="btn btn-success">Verify now</button>
+    </form>
+    {% endif %}
     <div>
         <h2 class="my-4">Update Account Information</h2>
         <form method="POST" action="{% url 'users:profile' %}">
