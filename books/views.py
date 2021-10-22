@@ -50,7 +50,11 @@ def download_book(request, pk):
 def read_book(request, pk, file_=None):
     book = get_object_or_404(Book, pk=pk)
     cred_id = os.environ.get('CRED_ID')     # credentail_id for adobe reader
-    return render(request, 'books/viewer.html', {'book': book})
+    return render(request, 'books/pdf_viewer.html', {'book': book})
+
+
+def view_book(request):
+    return render(request, 'books/viewer.html')
 
 
 class DeleteBook(DeleteView):

@@ -12,9 +12,11 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 if os.path.exists(BASE_DIR / '.env'):
     SECRET_KEY = config('SECRET_KEY')
     DEBUG = (config('DEBUG') == "True")
+    HOST = 'http://127.0.0.1:8000'
 else:
     SECRET_KEY = os.environ.get('SECRET_KEY') or str(secrets.token_hex(24))
     DEBUG = (os.environ.get('DEBUG_VALUE') == "True")
+    HOST = 'https://pdfstack.herokuapp.com'
 
 ALLOWED_HOSTS = ['pdfstack.herokuapp.com', '127.0.0.1']
 
@@ -62,6 +64,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'books.context_processors.get_books',
                 'books.context_processors.get_upload_form',
+                'books.context_processors.get_host',
                 'users.context_processors.check_email_verification',
             ],
         },

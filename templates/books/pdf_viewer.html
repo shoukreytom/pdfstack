@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}PDFStack - Viewer{% endblock %}
+
+
+{% block content %}
+<div class="container my-2 text-center">
+    <h2>{{ book }}</h2>
+	<iframe id="iframe_pdf" src="{% url 'books:view-book' %}?file={{host}}{{ book.book.url }}" 
+          style="width:800px; height:800px;" frameborder="0"></iframe>
+    <!-- <div id="viewer">
+        <iframe src="{{ book.book.url }}" style="width: 85vw;height:85vh" frameborder="0" id="pdf"/>
+    </div> -->
+    <!-- <canvas id="viewer"></canvas>
+    <input type="hidden" value="{{ book.book.url }}" id="bklink"/> -->
+</div>
+{% endblock %}

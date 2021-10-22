@@ -1,3 +1,4 @@
+from django.conf import settings
 from books.forms import UploadBookForm
 
 
@@ -13,3 +14,6 @@ def get_upload_form(request):
     return {
         'form': form
     }
+
+def get_host(request):
+    return {'host': settings.HOST}
